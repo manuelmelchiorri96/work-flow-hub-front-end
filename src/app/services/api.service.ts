@@ -18,11 +18,11 @@ export class ApiService {
     return this.http.post<Dipendente>(url, credenziali);
   }
 
-  /*register(utente: UtenteRegister): Observable<Utente> {
+  registerDipendente(utente: Dipendente): Observable<Dipendente> {
     const url = `${this.baseUrl}/register`;
-    return this.http.post<Utente>(url, utente);
+    return this.http.post<Dipendente>(url, utente);
   }
-
+  /*
   update(utente: Utente): Observable<Utente> {
     const url = `${this.baseUrl}/update`;
     return this.http.put<Utente>(url, utente);

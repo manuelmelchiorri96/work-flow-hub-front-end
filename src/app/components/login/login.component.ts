@@ -12,6 +12,7 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
   idDipendente: number = 0;
+  ruolo: string = '';
   loginFailed: boolean = false;
   resultLogin: boolean = false;
   messageResultLogin: string = '';
@@ -26,11 +27,13 @@ export class LoginComponent {
     this.apiService.login(credenziali).subscribe({
       next: (data) => {
         this.idDipendente = data.idDipendente;
+        this.ruolo = data.ruolo;
         this.router.navigate(['/dashboard', this.idDipendente]);
       },
       error: (error) => {
         console.error('Errore durante il login:', error);
         this.messageResultLogin = error.error;
+        this.loginFailed = true;
         this.resultLogin = true;
       },
     });
