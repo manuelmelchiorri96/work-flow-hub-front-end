@@ -24,7 +24,7 @@ export class LoginComponent {
       email: this.email,
       password: this.password,
     };
-    this.apiService.login(credenziali).subscribe({
+    this.apiService.loginDipendente(credenziali).subscribe({
       next: (data) => {
         this.idDipendente = data.idDipendente;
         this.ruolo = data.ruolo;
