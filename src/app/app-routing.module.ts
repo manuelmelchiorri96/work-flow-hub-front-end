@@ -7,7 +7,7 @@ import { RegistrazioneComponent } from './components/registrazione/registrazione
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard/:idUtente', component: DashboardComponent },
+  { path: 'dashboard/:id/:ruolo', component: DashboardComponent },
   { path: 'registrazione', component: RegistrazioneComponent },
 ];
 

@@ -11,7 +11,9 @@ import { ApiService } from '../../services/api.service';
 export class LoginComponent {
   email: string = '';
   password: string = '';
+  selectedRole: string = '';
   idDipendente: number = 0;
+  idProjectManager: number = 0;
   ruolo: string = '';
   loginFailed: boolean = false;
   resultLogin: boolean = false;
@@ -24,18 +26,41 @@ export class LoginComponent {
       email: this.email,
       password: this.password,
     };
-    this.apiService.loginDipendente(credenziali).subscribe({
-      next: (data) => {
-        this.idDipendente = data.idDipendente;
-        this.ruolo = data.ruolo;
-        this.router.navigate(['/dashboard', this.idDipendente]);
-      },
-      error: (error) => {
-        console.error('Errore durante il login:', error);
-        this.messageResultLogin = error.error;
-        this.loginFailed = true;
-        this.resultLogin = true;
-      },
-    });
+
+    if (this.selectedRole === 'dipendente') {
+      this.apiService.loginDipendente(credenziali).subscribe({
+        next: (data) => {
+          this.idDipendente = data.idDipendente;
+          this.ruolo = data.ruolo;
+          this.router.navigate(['/dashboard', this.idDipendente, this.ruolo]);
+        },
+        error: (error) => {
+          console.error('Errore durante il login:', error);
+          this.messageResultLogin = error.error;
+          this.loginFailed = true;
+          this.resultLogin = true;
+        },
+      });
+    }
+
+    if (this.selectedRole === 'project-manager') {
+      this.apiService.loginProjectManager(credenziali).subscribe({
+        next: (data) => {
+          this.idProjectManager = data.idProjectManager;
+          this.ruolo = data.ruolo;
+          this.router.navigate([
+            '/dashboard',
+            this.idProjectManager,
+            this.ruolo,
+          ]);
+        },
+        error: (error) => {
+          console.error('Errore durante il login:', error);
+          this.messageResultLogin = error.error;
+          this.loginFailed = true;
+          this.resultLogin = true;
+        },
+      });
+    }
   }
 }

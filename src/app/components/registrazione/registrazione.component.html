@@ -25,8 +25,11 @@
                                 [(ngModel)]="password" name="password" required minlength="8">
                         </div>
                         <div class="mt-3 form-group">
-                            <input type="text" class="form-control" id="inputRuolo" placeholder="Enter your role"
-                                [(ngModel)]="ruolo" name="ruolo" required>
+                            <select class="form-control" id="inputRuolo" [(ngModel)]="ruolo" name="ruolo" required>
+                                <option value="">Select your role</option>
+                                <option value="Option 1">sviluppatore</option>
+                                <option value="Option 2">project-manager</option>
+                            </select>
                         </div>
                         <button (click)="register()" type="submit"
                             class="mt-5 w-100 btn btn-primary btn-block">Register</button>

@@ -25,14 +25,20 @@ export class ApiService {
   }
 
   registerDipendente(utente: Dipendente): Observable<Dipendente> {
-    const url = `${this.baseUrl}dipendenti/register-dipendente`;
+    const url = `${this.baseUrl}/dipendenti/register-dipendente`;
     return this.http.post<Dipendente>(url, utente);
   }
 
   registerProjectManager(utente: ProjectManager): Observable<ProjectManager> {
-    const url = `${this.baseUrl}project-manager/register-project-manager`;
+    const url = `${this.baseUrl}/project-manager/register-project-manager`;
     return this.http.post<ProjectManager>(url, utente);
   }
+
+  getDipendenti(): Observable<Dipendente[]> {
+    const url = `${this.baseUrl}/dipendenti/all`;
+    return this.http.get<Dipendente[]>(url);
+  }
+
   /*
   update(utente: Utente): Observable<Utente> {
     const url = `${this.baseUrl}/update`;
