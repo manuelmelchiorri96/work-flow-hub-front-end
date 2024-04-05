@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Dipendente } from '../models/dipendente';
 import { Credenziali } from '../models/credenziali';
 import { ProjectManager } from '../models/projectManager';
+import { Project } from '../models/project';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +38,31 @@ export class ApiService {
   getDipendenti(): Observable<Dipendente[]> {
     const url = `${this.baseUrl}/dipendenti/all`;
     return this.http.get<Dipendente[]>(url);
+  }
+
+  saveProject(progetto: Project): Observable<Project> {
+    const url = `${this.baseUrl}/progetti/save-project`;
+    return this.http.post<Project>(url, progetto);
+  }
+
+  updateProject(progetto: Project): Observable<Project> {
+    const url = `${this.baseUrl}/progetti/update-project`;
+    return this.http.put<Project>(url, progetto);
+  }
+
+  getProjects(): Observable<Project[]> {
+    const url = `${this.baseUrl}/progetti/all`;
+    return this.http.get<Project[]>(url);
+  }
+
+  getDipendente(idDipendente: number): Observable<Dipendente> {
+    const url = `${this.baseUrl}/dipendenti/${idDipendente}`;
+    return this.http.get<Dipendente>(url);
+  }
+
+  getProjectManager(idProjectManager: number): Observable<ProjectManager> {
+    const url = `${this.baseUrl}/project-manager/${idProjectManager}`;
+    return this.http.get<ProjectManager>(url);
   }
 
   /*

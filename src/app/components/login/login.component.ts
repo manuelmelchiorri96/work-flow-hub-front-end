@@ -27,6 +27,15 @@ export class LoginComponent {
       password: this.password,
     };
 
+    if (
+      credenziali.email !== '' &&
+      credenziali.password !== '' &&
+      this.selectedRole === ''
+    ) {
+      this.loginFailed = true;
+      this.resultLogin = false;
+    }
+
     if (this.selectedRole === 'dipendente') {
       this.apiService.loginDipendente(credenziali).subscribe({
         next: (data) => {
@@ -37,8 +46,8 @@ export class LoginComponent {
         error: (error) => {
           console.error('Errore durante il login:', error);
           this.messageResultLogin = error.error;
-          this.loginFailed = true;
           this.resultLogin = true;
+          this.loginFailed = false;
         },
       });
     }
@@ -57,8 +66,8 @@ export class LoginComponent {
         error: (error) => {
           console.error('Errore durante il login:', error);
           this.messageResultLogin = error.error;
-          this.loginFailed = true;
           this.resultLogin = true;
+          this.loginFailed = false;
         },
       });
     }
