@@ -1,0 +1,12 @@
+.font-size {
+    font-size: 1.2rem;
+}
+
+.table-container {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.bi-pencil-square{
+    margin-right: 10px;
+}
