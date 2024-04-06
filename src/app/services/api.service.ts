@@ -50,6 +50,12 @@ export class ApiService {
     return this.http.put<Project>(url, progetto);
   }
 
+  deleteProject(idProject: number): Observable<String> {
+    return this.http.delete(`${this.baseUrl}/progetti/${idProject}`, {
+      responseType: 'text',
+    });
+  }
+
   getProjects(): Observable<Project[]> {
     const url = `${this.baseUrl}/progetti/all`;
     return this.http.get<Project[]>(url);
