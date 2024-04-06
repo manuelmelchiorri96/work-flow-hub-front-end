@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { Project } from '../../models/project';
 import { Dipendente } from '../../models/dipendente';
@@ -10,7 +10,7 @@ import { ProjectManager } from '../../models/projectManager';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   id: number = 0;
   ruolo: string = '';
   projects: Project[] = [];
@@ -60,7 +60,11 @@ export class DashboardComponent implements OnInit {
   nuovaPassword: string = '';
   confermaNuovaPassword: string = '';
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private apiService: ApiService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -69,6 +73,13 @@ export class DashboardComponent implements OnInit {
     });
     this.isProjectManager();
     this.getUserLogged();
+  }
+
+  ngOnDestroy() {
+    const modalBackdrop = document.querySelector('.modal-backdrop');
+    if (modalBackdrop && modalBackdrop.parentNode) {
+      modalBackdrop.parentNode.removeChild(modalBackdrop);
+    }
   }
 
   isProjectManager() {
@@ -227,7 +238,7 @@ export class DashboardComponent implements OnInit {
           if (this.ruolo === 'project-manager') {
             this.projectManagerLogged.password = this.nuovaPassword;
             console.log(this.projectManagerLogged);
-            
+
             this.apiService
               .updateProjectManager(this.projectManagerLogged)
               .subscribe({
@@ -241,7 +252,7 @@ export class DashboardComponent implements OnInit {
           } else {
             this.dipendenteLogged.password = this.nuovaPassword;
             console.log(this.dipendenteLogged);
-            
+
             this.apiService.updateDipendente(this.dipendenteLogged).subscribe({
               next: (data) => {
                 console.log(data);
@@ -254,5 +265,9 @@ export class DashboardComponent implements OnInit {
         }
       }
     }
+  }
+
+  logout() {
+    this.router.navigate(['/login']);
   }
 }
