@@ -57,6 +57,8 @@ export class DashboardComponent implements OnInit {
     projectManager: this.projectManagerLogged,
     tasks: [],
   };
+  nuovaPassword: string = '';
+  confermaNuovaPassword: string = '';
 
   constructor(private route: ActivatedRoute, private apiService: ApiService) {}
 
@@ -194,5 +196,9 @@ export class DashboardComponent implements OnInit {
         console.log(error);
       },
     });
+  }
+
+  prendiDatiUtenteDaModificare() {
+    throw new Error('Method not implemented.');
   }
 }

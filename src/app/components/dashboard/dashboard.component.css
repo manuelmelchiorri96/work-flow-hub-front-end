@@ -10,3 +10,7 @@
 .bi-pencil-square {
     margin-right: 10px;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}

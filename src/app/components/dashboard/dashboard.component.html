@@ -3,7 +3,8 @@
         <a class="navbar-brand" href="#">
             <img src="../assets/logo.jpeg" alt="Logo" width="100" height="100" class="d-inline-block align-text-top">
         </a>
-        <div class="navbar-text ms-auto font-size">
+        <div data-bs-toggle="modal" data-bs-target="#modificaProfilo"
+            class="navbar-text ms-auto font-size cursor-pointer">
             {{ nomeCognomeUtente }}
         </div>
     </div>
@@ -55,7 +56,7 @@
                 [(ngModel)]="nomeProgettoCercato" (input)="cercaProgettoPerNome()">
         </div>
         <div class="col-md-6 mb-3">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inserisciProgetto">
                 Inserisci progetto
             </button>
         </div>
@@ -81,7 +82,7 @@
                     <td>{{ progetto.statoProgetto }}</td>
                     <td>
                         <button type="button" class="btn m-0 p-0" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal2">
+                            data-bs-target="#modificaProgetto">
                             <svg (click)="prendiProgettoDaModificare(progetto)" xmlns="http://www.w3.org/2000/svg"
                                 width="18" height="18" fill="#007bff" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                 <path
@@ -91,7 +92,7 @@
                             </svg>
                         </button>
                         <button type="button" class="btn m-0 p-0" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal3">
+                            data-bs-target="#eliminaProgetto">
                             <svg (click)="prendiProgettoDaEliminare(progetto)" xmlns="http://www.w3.org/2000/svg"
                                 width="18" height="18" fill="#dc3545" class="bi bi-trash3" viewBox="0 0 16 16">
                                 <path
@@ -107,7 +108,7 @@
 
 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="inserisciProgetto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -144,14 +145,14 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" (click)="salvaProgetto()">Save project</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                <button type="button" class="btn btn-primary" (click)="salvaProgetto()">Salva progetto</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modificaProgetto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -188,14 +189,14 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" (click)="modificaProgetto()">Update project</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                <button type="button" class="btn btn-primary" (click)="modificaProgetto()">Modifica progetto</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="eliminaProgetto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -206,8 +207,65 @@
                 <p>Sei sicuro di voler eliminare il progetto?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button (click)="eliminaProgetto()" type="button" class="btn btn-primary">Delete project</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                <button (click)="eliminaProgetto()" type="button" class="btn btn-primary">Elimina progetto</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modificaProfilo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modifica profilo</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="nome">Nome</label>
+                        <input *ngIf="ruolo === 'project-manager'" type="text" class="form-control" id="nome"
+                            name="nome" [(ngModel)]="projectManagerLogged.nome">
+                        <input *ngIf="ruolo !== 'project-manager'" type="text" class="form-control" id="nome"
+                            name="nome" [(ngModel)]="dipendenteLogged.nome">
+                    </div>
+                    <div class="form-group">
+                        <label for="cognome">Cognome</label>
+                        <input *ngIf="ruolo === 'project-manager'" type="text" class="form-control" id="cognome"
+                            name="cognome" [(ngModel)]="projectManagerLogged.cognome">
+                        <input *ngIf="ruolo !== 'project-manager'" type="text" class="form-control" id="cognome"
+                            name="cognome" [(ngModel)]="dipendenteLogged.cognome">
+                    </div>
+                    <div class="form-group">
+                        <label for="e-mail">E-mail</label>
+                        <input *ngIf="ruolo === 'project-manager'" disabled="" type="email" email=""
+                            class="form-control" id="e-mail" name="e-mail" [(ngModel)]="projectManagerLogged.email">
+                        <input *ngIf="ruolo !== 'project-manager'" disabled="" type="email" email=""
+                            class="form-control" id="e-mail" name="e-mail" [(ngModel)]="dipendenteLogged.email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input *ngIf="ruolo === 'project-manager'" type="password" class="form-control" id="password"
+                            name="password" [(ngModel)]="projectManagerLogged.password">
+                        <input *ngIf="ruolo !== 'project-manager'" type="password" class="form-control" id="password"
+                            name="password" [(ngModel)]="dipendenteLogged.password">
+                    </div>
+                    <div class="form-group">
+                        <label for="nuovaPassword">Nuova password</label>
+                        <input type="text" class="form-control" id="nuovaPassword" name="nuovaPassword"
+                            [(ngModel)]="nuovaPassword">
+                    </div>
+                    <div class="form-group">
+                        <label for="confermaNuovaPassword">Conferma Nuova password</label>
+                        <input type="text" class="form-control" id="confermaNuovaPassword" name="confermaNuovaPassword"
+                            [(ngModel)]="confermaNuovaPassword">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                <button type="button" class="btn btn-primary" (click)="modificaProgetto()">Modifica profilo</button>
             </div>
         </div>
     </div>
