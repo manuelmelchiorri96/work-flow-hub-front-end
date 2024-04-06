@@ -38,20 +38,24 @@ export class DashboardComponent implements OnInit {
   nomeDipendenteCercato: string = '';
   nomeProgettoCercato: string = '';
   projectToSaved: Project = {
+    idProgetto: 0,
     nome: '',
     descrizione: '',
     dataInizio: '',
     dataFinePrevista: '',
     statoProgetto: '',
     projectManager: this.projectManagerLogged,
+    tasks: [],
   };
   selectedProject: Project = {
+    idProgetto: 0,
     nome: '',
     descrizione: '',
     dataInizio: '',
     dataFinePrevista: '',
     statoProgetto: '',
     projectManager: this.projectManagerLogged,
+    tasks: [],
   };
 
   constructor(private route: ActivatedRoute, private apiService: ApiService) {}
@@ -78,8 +82,6 @@ export class DashboardComponent implements OnInit {
         next: (data) => {
           this.dipendenteLogged = data;
           this.nomeCognomeUtente = data.nome + ' ' + data.cognome;
-
-          console.log(this.dipendenteLogged);
         },
         error: (error) => {
           console.error(error);
@@ -91,8 +93,6 @@ export class DashboardComponent implements OnInit {
         next: (data) => {
           this.projectManagerLogged = data;
           this.nomeCognomeUtente = data.nome + ' ' + data.cognome;
-
-          console.log(this.projectManagerLogged);
         },
         error: (error) => {
           console.error(error);
@@ -106,7 +106,6 @@ export class DashboardComponent implements OnInit {
       next: (data) => {
         this.dipendenti = data;
         this.dipendentiFiltrati = [...this.dipendenti];
-        console.log(this.dipendenti);
       },
       error: (error) => {
         console.error(error);
@@ -145,7 +144,6 @@ export class DashboardComponent implements OnInit {
       next: (data) => {
         this.projects = data;
         this.progettiFiltrati = [...this.projects];
-        console.log(this.projects);
       },
       error: (error) => {
         console.error('Errore durante il caricamento dei progetti:', error);
@@ -155,8 +153,6 @@ export class DashboardComponent implements OnInit {
 
   salvaProgetto() {
     this.projectToSaved.projectManager = this.projectManagerLogged;
-    console.log(this.projectToSaved);
-
     this.apiService.saveProject(this.projectToSaved).subscribe({
       next: (data) => {
         console.log(data);
@@ -168,7 +164,21 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  eliminaProgetto(progetto: Project) {}
+  prendiProgettoDaEliminare(progetto: Project) {
+    this.selectedProject = { ...progetto };
+    this.selectedProject.projectManager = this.projectManagerLogged;
+  }
+
+  eliminaProgetto() {
+    this.apiService.deleteProject(this.selectedProject.idProgetto).subscribe({
+      next: (data) => {
+        this.loadProjects();
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 
   prendiProgettoDaModificare(progetto: Project) {
     this.selectedProject = { ...progetto };
@@ -178,8 +188,6 @@ export class DashboardComponent implements OnInit {
   modificaProgetto() {
     this.apiService.updateProject(this.selectedProject).subscribe({
       next: (data) => {
-        console.log(data);
-        console.log(this.selectedProject);
         this.loadProjects();
       },
       error: (error) => {
