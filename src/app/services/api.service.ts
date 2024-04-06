@@ -71,6 +71,18 @@ export class ApiService {
     return this.http.get<ProjectManager>(url);
   }
 
+  updateProjectManager(
+    projectManager: ProjectManager
+  ): Observable<ProjectManager> {
+    const url = `${this.baseUrl}/project-manager/update`;
+    return this.http.put<ProjectManager>(url, projectManager);
+  }
+
+  updateDipendente(dipendente: Dipendente): Observable<Dipendente> {
+    const url = `${this.baseUrl}/dipendenti/update`;
+    return this.http.put<Dipendente>(url, dipendente);
+  }
+
   /*
   update(utente: Utente): Observable<Utente> {
     const url = `${this.baseUrl}/update`;

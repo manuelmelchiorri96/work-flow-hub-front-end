@@ -198,7 +198,61 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  prendiDatiUtenteDaModificare() {
-    throw new Error('Method not implemented.');
+  updateUtenteLogged() {
+    if (this.nuovaPassword === '' && this.confermaNuovaPassword === '') {
+      if (this.ruolo === 'project-manager') {
+        this.apiService
+          .updateProjectManager(this.projectManagerLogged)
+          .subscribe({
+            next: (data) => {
+              console.log(data);
+            },
+            error: (error) => {
+              console.error(error);
+            },
+          });
+      } else {
+        this.apiService.updateDipendente(this.dipendenteLogged).subscribe({
+          next: (data) => {
+            console.log(data);
+          },
+          error: (error) => {
+            console.error(error);
+          },
+        });
+      }
+    } else {
+      if (this.nuovaPassword !== '' || this.confermaNuovaPassword !== '') {
+        if (this.nuovaPassword === this.confermaNuovaPassword) {
+          if (this.ruolo === 'project-manager') {
+            this.projectManagerLogged.password = this.nuovaPassword;
+            console.log(this.projectManagerLogged);
+            
+            this.apiService
+              .updateProjectManager(this.projectManagerLogged)
+              .subscribe({
+                next: (data) => {
+                  console.log(data);
+                },
+                error: (error) => {
+                  console.error(error);
+                },
+              });
+          } else {
+            this.dipendenteLogged.password = this.nuovaPassword;
+            console.log(this.dipendenteLogged);
+            
+            this.apiService.updateDipendente(this.dipendenteLogged).subscribe({
+              next: (data) => {
+                console.log(data);
+              },
+              error: (error) => {
+                console.error(error);
+              },
+            });
+          }
+        }
+      }
+    }
   }
 }
