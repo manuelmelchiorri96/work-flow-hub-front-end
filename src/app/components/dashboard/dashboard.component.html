@@ -5,8 +5,7 @@
         </a>
         <div data-bs-toggle="modal" data-bs-target="#modificaProfilo"
             class="navbar-text ms-auto font-size cursor-pointer">
-            {{ projectManagerLogged.nome == '' ? dipendenteLogged.nome + ' ' + dipendenteLogged.cognome :
-            projectManagerLogged.nome + ' ' + projectManagerLogged.cognome }}
+            {{ nomeCognomeUserLogged }}
             <svg data-bs-toggle="modal" data-bs-target="#logout" xmlns="http://www.w3.org/2000/svg" width="22"
                 height="22" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16"
                 style="margin-bottom: 2.4px; margin-left: 5px;">

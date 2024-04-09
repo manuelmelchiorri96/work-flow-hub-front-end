@@ -36,6 +36,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ruolo: '',
     password: '',
   };
+  nomeCognomeUserLogged: string = '';
 
   searchDipendenteTable: string = '';
   searchProgettoTable: string = '';
@@ -98,6 +99,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.apiService.getDipendente(this.id).subscribe({
         next: (data) => {
           this.dipendenteLogged = data;
+          this.nomeCognomeUserLogged = data.nome + ' ' + data.cognome;
         },
         error: (error) => {
           console.error(error);
@@ -108,6 +110,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.apiService.getProjectManager(this.id).subscribe({
         next: (data) => {
           this.projectManagerLogged = data;
+          this.nomeCognomeUserLogged = data.nome + ' ' + data.cognome;
         },
         error: (error) => {
           console.error(error);
@@ -228,6 +231,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
           .subscribe({
             next: (data) => {
               console.log(data);
+              this.nomeCognomeUserLogged =
+                this.projectManagerLogged.nome +
+                ' ' +
+                this.projectManagerLogged.cognome;
             },
             error: (error) => {
               console.error(error);
@@ -237,6 +244,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.apiService.updateDipendente(this.dipendenteLogged).subscribe({
           next: (data) => {
             console.log(data);
+            this.nomeCognomeUserLogged =
+              this.projectManagerLogged.nome +
+              ' ' +
+              this.projectManagerLogged.cognome;
           },
           error: (error) => {
             console.error(error);
