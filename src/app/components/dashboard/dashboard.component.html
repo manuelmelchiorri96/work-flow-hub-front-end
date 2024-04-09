@@ -5,7 +5,8 @@
         </a>
         <div data-bs-toggle="modal" data-bs-target="#modificaProfilo"
             class="navbar-text ms-auto font-size cursor-pointer">
-            {{ nomeCognomeUtente }}
+            {{ projectManagerLogged.nome == '' ? dipendenteLogged.nome + ' ' + dipendenteLogged.cognome :
+            projectManagerLogged.nome + ' ' + projectManagerLogged.cognome }}
             <svg data-bs-toggle="modal" data-bs-target="#logout" xmlns="http://www.w3.org/2000/svg" width="22"
                 height="22" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16"
                 style="margin-bottom: 2.4px; margin-left: 5px;">
@@ -23,7 +24,10 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <input type="text" class="form-control" placeholder="Inserisci il nome del dipendente"
-                [(ngModel)]="nomeDipendenteCercato" (input)="cercaDipendentePerNome()">
+                [(ngModel)]="searchDipendenteTable" (input)="cercaDipendentePerNome()">
+        </div>
+        <div class="col-md-6 mb-3">
+            <button class="btn btn-primary" routerLink="/task">Gestisci dipendenti</button>
         </div>
     </div>
     <div class="table-container">
@@ -34,7 +38,6 @@
                     <th>Cognome</th>
                     <th>Email</th>
                     <th>Ruolo</th>
-                    <th>Azioni</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,13 +46,6 @@
                     <td>{{ dipendente.cognome }}</td>
                     <td>{{ dipendente.email }}</td>
                     <td>{{ dipendente.ruolo }}</td>
-                    <td><button type="button" class="btn btn-primary">
-                            Assegna Task
-                        </button>
-                        <button type="button" class="btn btn-danger" style="margin-left: 10px;">
-                            Rimuovi Task
-                        </button>
-                    </td>
                 </tr>
             </tbody>
         </table>
@@ -61,7 +57,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <input type="text" class="form-control" placeholder="Inserisci il nome del progetto"
-                [(ngModel)]="nomeProgettoCercato" (input)="cercaProgettoPerNome()">
+                [(ngModel)]="searchProgettoTable" (input)="cercaProgettoPerNome()">
         </div>
         <div class="col-md-6 mb-3">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inserisciProgetto">
@@ -193,6 +189,11 @@
                         <label for="dataFinePrevistaProgetto">Data consegna Progetto</label>
                         <input type="text" class="form-control" id="dataFinePrevistaProgetto"
                             name="dataFinePrevistaProgetto" [(ngModel)]="selectedProject.dataFinePrevista">
+                    </div>
+                    <div class="form-group">
+                        <label for="tasksProgetto">Tasks Progetto</label>
+                        <input type="text" class="form-control" id="tasksProgetto" name="tasksProgetto"
+                            [(ngModel)]="selectedProject.tasks">
                     </div>
                 </form>
             </div>

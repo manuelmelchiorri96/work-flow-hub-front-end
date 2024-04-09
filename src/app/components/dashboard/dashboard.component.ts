@@ -13,10 +13,12 @@ import { ProjectManager } from '../../models/projectManager';
 export class DashboardComponent implements OnInit, OnDestroy {
   id: number = 0;
   ruolo: string = '';
+
   projects: Project[] = [];
   progettiFiltrati: Project[] = [];
   dipendenti: Dipendente[] = [];
   dipendentiFiltrati: Dipendente[] = [];
+
   dipendenteLogged: Dipendente = {
     idDipendente: 0,
     nome: '',
@@ -34,9 +36,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ruolo: '',
     password: '',
   };
-  nomeCognomeUtente: string = '';
-  nomeDipendenteCercato: string = '';
-  nomeProgettoCercato: string = '';
+
+  searchDipendenteTable: string = '';
+  searchProgettoTable: string = '';
+
   projectToSaved: Project = {
     idProgetto: 0,
     nome: '',
@@ -57,6 +60,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     projectManager: this.projectManagerLogged,
     tasks: [],
   };
+
   nuovaPassword: string = '';
   confermaNuovaPassword: string = '';
 
@@ -94,7 +98,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.apiService.getDipendente(this.id).subscribe({
         next: (data) => {
           this.dipendenteLogged = data;
-          this.nomeCognomeUtente = data.nome + ' ' + data.cognome;
         },
         error: (error) => {
           console.error(error);
@@ -105,7 +108,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.apiService.getProjectManager(this.id).subscribe({
         next: (data) => {
           this.projectManagerLogged = data;
-          this.nomeCognomeUtente = data.nome + ' ' + data.cognome;
         },
         error: (error) => {
           console.error(error);
@@ -126,32 +128,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  cercaDipendentePerNome() {
-    if (this.nomeDipendenteCercato.trim() !== '') {
-      this.dipendentiFiltrati = this.dipendenti.filter((dipendente) =>
-        (
-          dipendente.nome.toLowerCase() +
-          ' ' +
-          dipendente.cognome.toLowerCase()
-        ).includes(this.nomeDipendenteCercato.toLowerCase())
-      );
-    } else {
-      this.dipendentiFiltrati = [...this.dipendenti];
-    }
-  }
-
-  cercaProgettoPerNome() {
-    if (this.nomeProgettoCercato.trim() !== '') {
-      this.progettiFiltrati = this.projects.filter((progetto) =>
-        progetto.nome
-          .toLowerCase()
-          .includes(this.nomeProgettoCercato.toLowerCase())
-      );
-    } else {
-      this.progettiFiltrati = [...this.projects];
-    }
-  }
-
   loadProjects(): void {
     this.apiService.getProjects().subscribe({
       next: (data) => {
@@ -162,6 +138,32 @@ export class DashboardComponent implements OnInit, OnDestroy {
         console.error('Errore durante il caricamento dei progetti:', error);
       },
     });
+  }
+
+  cercaDipendentePerNome() {
+    if (this.searchDipendenteTable.trim() !== '') {
+      this.dipendentiFiltrati = this.dipendenti.filter((dipendente) =>
+        (
+          dipendente.nome.toLowerCase() +
+          ' ' +
+          dipendente.cognome.toLowerCase()
+        ).includes(this.searchDipendenteTable.toLowerCase())
+      );
+    } else {
+      this.dipendentiFiltrati = [...this.dipendenti];
+    }
+  }
+
+  cercaProgettoPerNome() {
+    if (this.searchProgettoTable.trim() !== '') {
+      this.progettiFiltrati = this.projects.filter((progetto) =>
+        progetto.nome
+          .toLowerCase()
+          .includes(this.searchProgettoTable.toLowerCase())
+      );
+    } else {
+      this.progettiFiltrati = [...this.projects];
+    }
   }
 
   salvaProgetto() {
@@ -196,6 +198,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   prendiProgettoDaModificare(progetto: Project) {
     this.selectedProject = { ...progetto };
     this.selectedProject.projectManager = this.projectManagerLogged;
+
+    this.apiService.getTasksByProgetto(progetto.idProgetto).subscribe({
+      next: (data) => {
+        console.log(this.selectedProject);
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
   }
 
   modificaProgetto() {
