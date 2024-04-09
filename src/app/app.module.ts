@@ -9,6 +9,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RegistrazioneComponent } from './components/registrazione/registrazione.component';
+import { TaskComponent } from './components/task/task.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { RegistrazioneComponent } from './components/registrazione/registrazione
     DashboardComponent,
     LayoutComponent,
     RegistrazioneComponent,
+    TaskComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],

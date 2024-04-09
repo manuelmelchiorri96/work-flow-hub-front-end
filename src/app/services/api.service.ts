@@ -5,6 +5,8 @@ import { Dipendente } from '../models/dipendente';
 import { Credenziali } from '../models/credenziali';
 import { ProjectManager } from '../models/projectManager';
 import { Project } from '../models/project';
+import { TaskVO } from '../models/taskVO';
+import { Task } from '../models/task';
 
 @Injectable({
   providedIn: 'root',
@@ -81,6 +83,21 @@ export class ApiService {
   updateDipendente(dipendente: Dipendente): Observable<Dipendente> {
     const url = `${this.baseUrl}/dipendenti/update`;
     return this.http.put<Dipendente>(url, dipendente);
+  }
+
+  getTasksByDipendente(idDipendente: number): Observable<TaskVO[]> {
+    const url = `${this.baseUrl}/tasks/all-tasks-dipendenti/${idDipendente}`;
+    return this.http.get<TaskVO[]>(url);
+  }
+
+  getTasksByProgetto(idProgetto: number): Observable<TaskVO[]> {
+    const url = `${this.baseUrl}/tasks/all-tasks-progetto/${idProgetto}`;
+    return this.http.get<TaskVO[]>(url);
+  }
+
+  updateTask(task: Task): Observable<Task> {
+    const url = `${this.baseUrl}/tasks/update-task`;
+    return this.http.put<Task>(url, task);
   }
 
   /*

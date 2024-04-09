@@ -1,14 +1,11 @@
-import { Dipendente } from "./dipendente";
-import { Project } from "./project";
-
-export class Task {
+export class TaskVO {
   idTask: number;
   descrizione: string;
   dataInizio: string;
   dataFinePrevista: string;
   statoTask: string;
-  idProgetto: Project;
-  idDipendente: Dipendente;
+  idProgetto: number;
+  idDipendente: number;
 
   constructor(
     idTask: number,
@@ -16,8 +13,8 @@ export class Task {
     dataInizio: string,
     dataFinePrevista: string,
     statoTask: string,
-    idProgetto: Project,
-    idDipendente: Dipendente
+    idProgetto: number,
+    idDipendente: number
   ) {
     this.idTask = idTask;
     this.descrizione = descrizione;
