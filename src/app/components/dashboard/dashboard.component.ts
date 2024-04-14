@@ -289,6 +289,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
+  vaiAPaginaTask(idDipendente: number) {
+    if (this.ruolo === 'project-manager') {
+      this.router.navigate(['/task', this.id, this.ruolo, idDipendente]);
+    }
+  }
+
   logout() {
     this.router.navigate(['/login']);
   }

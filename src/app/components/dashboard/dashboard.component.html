@@ -1,7 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <img src="../assets/logo.jpeg" alt="Logo" width="100" height="100" class="d-inline-block align-text-top">
+            <img src="../assets/logo.jpeg" alt="Logo" width="100" height="100"
+                class="d-inline-block align-text-top -ml-2">
         </a>
         <div data-bs-toggle="modal" data-bs-target="#modificaProfilo"
             class="navbar-text ms-auto font-size cursor-pointer">
@@ -25,9 +26,6 @@
             <input type="text" class="form-control" placeholder="Inserisci il nome del dipendente"
                 [(ngModel)]="searchDipendenteTable" (input)="cercaDipendentePerNome()">
         </div>
-        <div class="col-md-6 mb-3">
-            <button class="btn btn-primary" routerLink="/task">Gestisci dipendenti</button>
-        </div>
     </div>
     <div class="table-container">
         <table class="table">
@@ -45,6 +43,12 @@
                     <td>{{ dipendente.cognome }}</td>
                     <td>{{ dipendente.email }}</td>
                     <td>{{ dipendente.ruolo }}</td>
+                    <td>
+                        <div class="col-md-6 mb-3">
+                            <button class="btn btn-primary" (click)="vaiAPaginaTask(dipendente.idDipendente)">Gestisci
+                                dipendente</button>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>

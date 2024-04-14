@@ -1,5 +1,5 @@
-import { Dipendente } from "./dipendente";
-import { Project } from "./project";
+import { DipendenteDTO } from './dipendenteDTO';
+import { ProgettoDTO } from './progettoDTO';
 
 export class Task {
   idTask: number;
@@ -7,8 +7,8 @@ export class Task {
   dataInizio: string;
   dataFinePrevista: string;
   statoTask: string;
-  idProgetto: Project;
-  idDipendente: Dipendente;
+  progetto: ProgettoDTO;
+  dipendente: DipendenteDTO;
 
   constructor(
     idTask: number,
@@ -16,15 +16,15 @@ export class Task {
     dataInizio: string,
     dataFinePrevista: string,
     statoTask: string,
-    idProgetto: Project,
-    idDipendente: Dipendente
+    progetto: ProgettoDTO,
+    dipendente: DipendenteDTO
   ) {
     this.idTask = idTask;
     this.descrizione = descrizione;
     this.dataInizio = dataInizio;
     this.dataFinePrevista = dataFinePrevista;
     this.statoTask = statoTask;
-    this.idProgetto = idProgetto;
-    this.idDipendente = idDipendente;
+    this.progetto = progetto;
+    this.dipendente = dipendente;
   }
 }

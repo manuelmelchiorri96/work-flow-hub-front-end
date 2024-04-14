@@ -1,1 +1,120 @@
-<p>task works!</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="../assets/logo.jpeg" alt="Logo" width="100" height="100"
+                class="d-inline-block align-text-top -ml-2">
+        </a>
+        <div data-bs-toggle="modal" data-bs-target="#modificaProfilo"
+            class="navbar-text ms-auto font-size cursor-pointer">
+            {{ nomeCognomeUserLogged }}
+            <svg data-bs-toggle="modal" data-bs-target="#logout" xmlns="http://www.w3.org/2000/svg" width="22"
+                height="22" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16"
+                style="margin-bottom: 2.4px; margin-left: 5px;">
+                <path fill-rule="evenodd"
+                    d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                <path fill-rule="evenodd"
+                    d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+            </svg>
+        </div>
+    </div>
+</nav>
+
+<p class="text-center mt-50" *ngIf="messageTasksDipendente">{{messageTasksDipendente}}</p>
+<div *ngIf="ruolo === 'project-manager' && !messageTasksDipendente" class="container mt-5">
+    <h2>Task</h2>
+    <h4 class="mb-4">Dipendente: {{ dipendenteDaGestire.nome.charAt(0).toUpperCase() + dipendenteDaGestire.nome.slice(1)
+        }}</h4>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <input type="text" class="form-control" [placeholder]="'Cerca task di ' + dipendenteDaGestire.nome"
+                [(ngModel)]="searchTask" (input)="cercaTask()">
+        </div>
+        <div class="col-md-6 mb-3">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#assegnaTask">
+                Assegna Task
+            </button>
+        </div>
+    </div>
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Descrizione</th>
+                    <th>Data inizio</th>
+                    <th>Data Consegna</th>
+                    <th>Stato Task</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let taskDipendente of tasksDipendenteFiltrati">
+                    <td>{{ taskDipendente.descrizione }}</td>
+                    <td>{{ taskDipendente.dataInizio }}</td>
+                    <td>{{ taskDipendente.dataFinePrevista }}</td>
+                    <td>{{ taskDipendente.statoTask }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="logout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Logout</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Sei sicuro di voler effetturare il logout?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                <button (click)="logout()" type="button" class="btn btn-primary">Conferma</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="assegnaTask" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Assegna Task</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="descrizioneTask">Descrizione Task</label>
+                        <input [(ngModel)]="taskDaAssegnare.descrizione" type="text" class="form-control"
+                            id="descrizioneTask" name="descrizioneTask">
+                    </div>
+                    <div class="form-group">
+                        <label for="dataInizioTask">Data Inizio Task</label>
+                        <input [(ngModel)]="taskDaAssegnare.dataInizio" type="datetime" class="form-control"
+                            id="dataInizioTask" name="dataInizioTask">
+                    </div>
+                    <div class="form-group">
+                        <label for="dataConsegnaTask">Data Consegna Task</label>
+                        <input [(ngModel)]="taskDaAssegnare.dataFinePrevista" type="datetime" class="form-control"
+                            id="dataConsegnaTask" name="dataConsegnaTask">
+                    </div>
+                    <div class="form-group">
+                        <label for="statoTask">Stato Task</label>
+                        <input [(ngModel)]="taskDaAssegnare.statoTask" type="text" class="form-control" id="statoTask"
+                            name="statoTask">
+                    </div>
+                    <div class="form-group">
+                        <label for="progetto">Progetto</label>
+                        <select [(ngModel)]="taskDaAssegnare.progetto.idProgetto" class="form-control" id="progetto" name="progetto">
+                            <option *ngFor="let project of projects" [value]="project.idProgetto">{{ project.descrizione }}</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                <button type="button" class="btn btn-primary" (click)="assegnaTask()">Assegna Task</button>
+            </div>
+        </div>
+    </div>

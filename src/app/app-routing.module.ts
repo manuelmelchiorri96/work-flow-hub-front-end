@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard/:id/:ruolo', component: DashboardComponent },
   { path: 'registrazione', component: RegistrazioneComponent },
-  { path: 'task', component: TaskComponent },
+  { path: 'task/:id/:ruolo/:idDipendente', component: TaskComponent },
 ];
 
 @NgModule({

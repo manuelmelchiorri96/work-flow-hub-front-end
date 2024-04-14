@@ -7,6 +7,7 @@ import { ProjectManager } from '../models/projectManager';
 import { Project } from '../models/project';
 import { TaskVO } from '../models/taskVO';
 import { Task } from '../models/task';
+import { DipendenteVO } from '../models/dipendenteVO';
 
 @Injectable({
   providedIn: 'root',
@@ -37,11 +38,6 @@ export class ApiService {
     return this.http.post<ProjectManager>(url, utente);
   }
 
-  getDipendenti(): Observable<Dipendente[]> {
-    const url = `${this.baseUrl}/dipendenti/all`;
-    return this.http.get<Dipendente[]>(url);
-  }
-
   saveProject(progetto: Project): Observable<Project> {
     const url = `${this.baseUrl}/progetti/save-project`;
     return this.http.post<Project>(url, progetto);
@@ -63,9 +59,19 @@ export class ApiService {
     return this.http.get<Project[]>(url);
   }
 
+  getDipendenti(): Observable<Dipendente[]> {
+    const url = `${this.baseUrl}/dipendenti/all`;
+    return this.http.get<Dipendente[]>(url);
+  }
+
   getDipendente(idDipendente: number): Observable<Dipendente> {
     const url = `${this.baseUrl}/dipendenti/${idDipendente}`;
     return this.http.get<Dipendente>(url);
+  }
+
+  getDipendenteVO(idDipendente: number): Observable<DipendenteVO> {
+    const url = `${this.baseUrl}/dipendenti/${idDipendente}/vo`;
+    return this.http.get<DipendenteVO>(url);
   }
 
   getProjectManager(idProjectManager: number): Observable<ProjectManager> {
@@ -93,6 +99,11 @@ export class ApiService {
   getTasksByProgetto(idProgetto: number): Observable<TaskVO[]> {
     const url = `${this.baseUrl}/tasks/all-tasks-progetto/${idProgetto}`;
     return this.http.get<TaskVO[]>(url);
+  }
+
+  saveTask(task: Task): Observable<Task> {
+    const url = `${this.baseUrl}/tasks/save-task`;
+    return this.http.post<Task>(url, task);
   }
 
   updateTask(task: Task): Observable<Task> {
