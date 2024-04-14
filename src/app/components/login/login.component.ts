@@ -28,8 +28,8 @@ export class LoginComponent {
     };
 
     if (
-      credenziali.email !== '' &&
-      credenziali.password !== '' &&
+      credenziali.email === '' ||
+      credenziali.password === '' ||
       this.selectedRole === ''
     ) {
       this.loginFailed = true;
