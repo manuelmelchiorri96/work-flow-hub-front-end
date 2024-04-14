@@ -1,23 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Dipendente } from '../../models/dipendente';
 import { ApiService } from '../../services/api.service';
 import { ProjectManager } from '../../models/projectManager';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registrazione',
   templateUrl: './registrazione.component.html',
   styleUrl: './registrazione.component.css',
 })
-export class RegistrazioneComponent {
+export class RegistrazioneComponent implements OnDestroy {
   nome: string = '';
   cognome: string = '';
   email: string = '';
   password: string = '';
   ruolo: string = '';
 
-  constructor(private apiService: ApiService) {}
+  resultRegistrazione: string = '';
+
+  constructor(private apiService: ApiService, private router: Router) {}
+
+  ngOnDestroy() {
+    const modalBackdrop = document.querySelector('.modal-backdrop');
+    if (modalBackdrop && modalBackdrop.parentNode) {
+      modalBackdrop.parentNode.removeChild(modalBackdrop);
+    }
+  }
+
+  updateRuolo(event: Event): void {
+    this.ruolo = (event.target as HTMLSelectElement).value;
+
+    if (this.ruolo === 'Option 1') {
+      this.ruolo = 'sviluppatore';
+    } else {
+      this.ruolo = 'project-manager';
+    }
+  }
 
   register(): void {
+    if (
+      (this.ruolo !== 'project-manager' && this.ruolo !== 'sviluppatore') ||
+      this.nome === ' ' ||
+      this.cognome === ' ' ||
+      this.email === ' ' ||
+      this.password === ' '
+    ) {
+      this.resultRegistrazione = 'Non posso esserci campi vuoti.';
+    }
+
     if (this.ruolo === 'sviluppatore') {
       const nuovoDipendente: Dipendente = {
         idDipendente: 0,
@@ -30,10 +60,10 @@ export class RegistrazioneComponent {
       };
       this.apiService.registerDipendente(nuovoDipendente).subscribe({
         next: (data) => {
-          console.log('Registrazione avvenuta con successo:', data);
+          this.resultRegistrazione = 'Registrazione avvenuta con successo.';
         },
         error: (error) => {
-          console.error('Errore durante la registrazione:', error);
+          this.resultRegistrazione = error.error;
         },
       });
     }
@@ -48,12 +78,16 @@ export class RegistrazioneComponent {
       };
       this.apiService.registerProjectManager(nuovoProjectManager).subscribe({
         next: (data) => {
-          console.log('Registrazione avvenuta con successo:', data);
+          this.resultRegistrazione = 'Registrazione avvenuta con successo.';
         },
         error: (error) => {
-          console.error('Errore durante la registrazione:', error);
+          this.resultRegistrazione = error.error;
         },
       });
     }
+  }
+
+  chiudiRisultatoRegistrazione() {
+    this.router.navigate(['/login']);
   }
 }
