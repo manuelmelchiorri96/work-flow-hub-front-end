@@ -68,7 +68,6 @@
                 <p>Sei sicuro di voler effetturare il logout?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
                 <button (click)="logout()" type="button" class="btn btn-primary">Conferma</button>
             </div>
         </div>
@@ -115,7 +114,6 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
                 <button type="button" class="btn btn-primary" (click)="assegnaTask()">Assegna Task</button>
             </div>
         </div>
@@ -166,9 +164,26 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
                 <button type="button" class="btn btn-primary" (click)="updateUtenteLogged()">Modifica profilo</button>
-                <button type="button" class="btn btn-danger" (click)="toDeleteAccount()">Elimina profilo</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" data-bs-toggle="modal"
+                    data-bs-target="#eliminaAccount">Elimina profilo</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="eliminaAccount" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Cancellazione Account</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Sei sicuro di voler eliminare il tuo account?</p>
+            </div>
+            <div class="modal-footer">
+                <button (click)="eliminaAccount()" type="button" class="btn btn-danger">Conferma</button>
             </div>
         </div>
     </div>

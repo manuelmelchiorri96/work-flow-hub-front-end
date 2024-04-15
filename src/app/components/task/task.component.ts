@@ -15,9 +15,6 @@ import { DipendenteDTO } from '../../models/dipendenteDTO';
   styleUrl: './task.component.css',
 })
 export class TaskComponent implements OnInit, OnDestroy {
-toDeleteAccount() {
-throw new Error('Method not implemented.');
-}
   idUserLogged: number = 0;
   ruolo: string = '';
   idDipendenteDaGestire: number = 0;
@@ -196,6 +193,10 @@ throw new Error('Method not implemented.');
           });
       }
     }
+  }
+
+  eliminaAccount() {
+    throw new Error('Method not implemented.');
   }
 
   logout() {

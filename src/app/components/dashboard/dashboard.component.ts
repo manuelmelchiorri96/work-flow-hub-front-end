@@ -11,9 +11,6 @@ import { ProjectManager } from '../../models/projectManager';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-toDeleteAccount() {
-throw new Error('Method not implemented.');
-}
   id: number = 0;
   ruolo: string = '';
 
@@ -295,6 +292,29 @@ throw new Error('Method not implemented.');
   vaiAPaginaTask(idDipendente: number) {
     if (this.ruolo === 'project-manager') {
       this.router.navigate(['/task', this.id, this.ruolo, idDipendente]);
+    }
+  }
+
+  eliminaAccount() {
+    if (this.ruolo === 'dipendente') {
+      this.apiService.deleteDipendente(this.id).subscribe({
+        next: (data) => {
+          this.router.navigate(['/login']);
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+    }
+    if (this.ruolo === 'project-manager') {
+      this.apiService.deleteProjectManager(this.id).subscribe({
+        next: (data) => {
+          this.router.navigate(['/login']);
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
     }
   }
 

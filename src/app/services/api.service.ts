@@ -38,6 +38,21 @@ export class ApiService {
     return this.http.post<ProjectManager>(url, utente);
   }
 
+  deleteDipendente(idDipendente: number): Observable<String> {
+    return this.http.delete(`${this.baseUrl}/dipendenti/${idDipendente}`, {
+      responseType: 'text',
+    });
+  }
+
+  deleteProjectManager(idProjectManager: number): Observable<String> {
+    return this.http.delete(
+      `${this.baseUrl}/project-manager/${idProjectManager}`,
+      {
+        responseType: 'text',
+      }
+    );
+  }
+
   saveProject(progetto: Project): Observable<Project> {
     const url = `${this.baseUrl}/progetti/save-project`;
     return this.http.post<Project>(url, progetto);
@@ -110,20 +125,4 @@ export class ApiService {
     const url = `${this.baseUrl}/tasks/update-task`;
     return this.http.put<Task>(url, task);
   }
-
-  /*
-  update(utente: Utente): Observable<Utente> {
-    const url = `${this.baseUrl}/update`;
-    return this.http.put<Utente>(url, utente);
-  }
-
-  getUserInfo(idUtente: number): Observable<Utente> {
-    return this.http.get<Utente>(`${this.baseUrl}/${idUtente}`);
-  }
-
-  deleteAccount(idUtente: number) {
-    return this.http.delete(`${this.baseUrl}/${idUtente}`, {
-      responseType: 'text',
-    });
-  }*/
 }
