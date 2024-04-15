@@ -18,9 +18,9 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  loginDipendente(credenziali: Credenziali): Observable<Dipendente> {
+  loginDipendente(credenziali: Credenziali): Observable<DipendenteVO> {
     const url = `${this.baseUrl}/dipendenti/login-dipendente`;
-    return this.http.post<Dipendente>(url, credenziali);
+    return this.http.post<DipendenteVO>(url, credenziali);
   }
 
   loginProjectManager(credenziali: Credenziali): Observable<ProjectManager> {

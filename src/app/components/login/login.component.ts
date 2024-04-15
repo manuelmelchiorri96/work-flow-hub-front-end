@@ -12,9 +12,12 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
   selectedRole: string = '';
+
   idDipendente: number = 0;
   idProjectManager: number = 0;
+
   ruolo: string = '';
+
   loginFailed: boolean = false;
   resultLogin: boolean = false;
   messageResultLogin: string = '';

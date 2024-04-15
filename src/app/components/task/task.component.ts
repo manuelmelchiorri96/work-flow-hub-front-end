@@ -40,7 +40,6 @@ export class TaskComponent implements OnInit, OnDestroy {
   searchTask: string = '';
   tasksDipendente: TaskVO[] = [];
   tasksDipendenteFiltrati: TaskVO[] = [];
-
   messageTasksDipendente: string = '';
 
   projects: Project[] = [];

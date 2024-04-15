@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { Project } from '../../models/project';
 import { Dipendente } from '../../models/dipendente';
 import { ProjectManager } from '../../models/projectManager';
+import { TaskVO } from '../../models/taskVO';
+import { DipendenteVO } from '../../models/dipendenteVO';
+import { Task } from '../../models/task';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,6 +22,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   dipendenti: Dipendente[] = [];
   dipendentiFiltrati: Dipendente[] = [];
 
+  tasksDipendente: TaskVO[] = [];
+  tasksDipendenteFiltrati: TaskVO[] = [];
+  searchTask: string = '';
+  messageTasksDipendente: string = '';
+
   dipendenteLogged: Dipendente = {
     idDipendente: 0,
     nome: '',
@@ -27,6 +35,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ruolo: '',
     password: '',
     tasks: [],
+  };
+  dipendenteLoggedVO: DipendenteVO = {
+    idDipendente: 0,
+    nome: '',
+    cognome: '',
+    email: '',
+    ruolo: '',
+    password: '',
   };
   projectManagerLogged: ProjectManager = {
     idProjectManager: 0,
@@ -61,6 +77,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     projectManager: this.projectManagerLogged,
     tasks: [],
   };
+  selectedTask: Task = {
+    idTask: 0,
+    descrizione: '',
+    dataInizio: '',
+    dataFinePrevista: '',
+    statoTask: '',
+    progetto: {
+      idProgetto: 0,
+    },
+    dipendente: {
+      idDipendente: this.dipendenteLogged.idDipendente,
+    },
+  };
 
   nuovaPassword: string = '';
   confermaNuovaPassword: string = '';
@@ -78,6 +107,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
     this.isProjectManager();
     this.getUserLogged();
+    this.prendiTaskDipendente(this.id);
   }
 
   ngOnDestroy() {
@@ -96,9 +126,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getUserLogged() {
     if (this.ruolo === 'sviluppatore') {
-      this.apiService.getDipendente(this.id).subscribe({
+      this.apiService.getDipendenteVO(this.id).subscribe({
         next: (data) => {
-          this.dipendenteLogged = data;
+          this.dipendenteLoggedVO = data;
+
+          this.dipendenteLogged.idDipendente =
+            this.dipendenteLoggedVO.idDipendente;
+          this.dipendenteLogged.nome = this.dipendenteLoggedVO.nome;
+          this.dipendenteLogged.cognome = this.dipendenteLoggedVO.cognome;
+          this.dipendenteLogged.email = this.dipendenteLoggedVO.email;
+          this.dipendenteLogged.password = this.dipendenteLoggedVO.password;
+          this.dipendenteLogged.ruolo = this.dipendenteLoggedVO.ruolo;
+
           this.nomeCognomeUserLogged = data.nome + ' ' + data.cognome;
         },
         error: (error) => {
@@ -287,6 +326,64 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       }
     }
+  }
+
+  prendiTaskDipendente(idDipendente: number) {
+    this.apiService.getTasksByDipendente(idDipendente).subscribe({
+      next: (data: TaskVO[]) => {
+        this.messageTasksDipendente = '';
+        this.tasksDipendente = data;
+        this.tasksDipendenteFiltrati = [...this.tasksDipendente];
+      },
+      error: (error) => {
+        this.messageTasksDipendente = error.error;
+      },
+    });
+  }
+
+  cercaTask() {
+    if (this.searchTask.trim() !== '') {
+      this.tasksDipendenteFiltrati = this.tasksDipendente.filter(
+        (tasksDipendente) =>
+          tasksDipendente.descrizione
+            .toLowerCase()
+            .includes(this.searchTask.toLowerCase())
+      );
+    } else {
+      this.tasksDipendenteFiltrati = [...this.tasksDipendente];
+    }
+  }
+
+  prendiTaskDaAggiornare(taskDaAggiornare: TaskVO) {
+    this.selectedTask = this.convertiTaskVOaTask(taskDaAggiornare);
+  }
+
+  convertiTaskVOaTask(taskVO: TaskVO): Task {
+    return {
+      idTask: taskVO.idTask,
+      descrizione: taskVO.descrizione,
+      dataInizio: taskVO.dataInizio,
+      dataFinePrevista: taskVO.dataFinePrevista,
+      statoTask: taskVO.statoTask,
+      progetto: {
+        idProgetto: taskVO.idProgetto,
+      },
+      dipendente: {
+        idDipendente: taskVO.idDipendente,
+      },
+    };
+  }
+
+  aggiornaTask() {
+    this.apiService.updateTask(this.selectedTask).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.prendiTaskDipendente(this.id);
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
   }
 
   vaiAPaginaTask(idDipendente: number) {
