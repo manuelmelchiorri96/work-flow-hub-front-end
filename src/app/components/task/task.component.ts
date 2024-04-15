@@ -15,6 +15,9 @@ import { DipendenteDTO } from '../../models/dipendenteDTO';
   styleUrl: './task.component.css',
 })
 export class TaskComponent implements OnInit, OnDestroy {
+toDeleteAccount() {
+throw new Error('Method not implemented.');
+}
   idUserLogged: number = 0;
   ruolo: string = '';
   idDipendenteDaGestire: number = 0;
@@ -53,6 +56,9 @@ export class TaskComponent implements OnInit, OnDestroy {
     progetto: new ProgettoDTO(0),
     dipendente: new DipendenteDTO(0),
   };
+
+  nuovaPassword: string = '';
+  confermaNuovaPassword: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -156,6 +162,40 @@ export class TaskComponent implements OnInit, OnDestroy {
         console.error(error.error);
       },
     });
+  }
+
+  updateUtenteLogged() {
+    if (this.nuovaPassword === '' && this.confermaNuovaPassword === '') {
+      this.apiService
+        .updateProjectManager(this.projectManagerLogged)
+        .subscribe({
+          next: (data) => {
+            console.log(data);
+            this.nomeCognomeUserLogged =
+              this.projectManagerLogged.nome +
+              ' ' +
+              this.projectManagerLogged.cognome;
+          },
+          error: (error) => {
+            console.error(error);
+          },
+        });
+    }
+    if (this.nuovaPassword !== '' || this.confermaNuovaPassword !== '') {
+      if (this.nuovaPassword === this.confermaNuovaPassword) {
+        this.projectManagerLogged.password = this.nuovaPassword;
+        this.apiService
+          .updateProjectManager(this.projectManagerLogged)
+          .subscribe({
+            next: (data) => {
+              console.log(data);
+            },
+            error: (error) => {
+              console.error(error);
+            },
+          });
+      }
+    }
   }
 
   logout() {

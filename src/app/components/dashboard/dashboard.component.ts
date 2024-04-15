@@ -11,6 +11,9 @@ import { ProjectManager } from '../../models/projectManager';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+toDeleteAccount() {
+throw new Error('Method not implemented.');
+}
   id: number = 0;
   ruolo: string = '';
 
