@@ -14,7 +14,7 @@ import { DipendenteVO } from '../models/dipendenteVO';
 })
 export class ApiService {
   private baseUrl: string =
-    'https://work-flow-hub-back-end-jpa-restful.vercel.app/api/work-flow-hub';
+    'http://localhost:8080/Work_Flow_hub_Back_End_Jpa_Restful-1.0-SNAPSHOT/api/work-flow-hub';
 
   constructor(private http: HttpClient) {}
 
