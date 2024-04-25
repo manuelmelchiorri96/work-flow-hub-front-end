@@ -14,7 +14,7 @@ import { DipendenteVO } from '../models/dipendenteVO';
 })
 export class ApiService {
   private baseUrl: string =
-    'http://localhost:8080/work-flow-hub-back-end/api/work-flow-hub';
+    'http://localhost:8080/work-flow-hub-back-end-0.0.1-SNAPSHOT/api/work-flow-hub';
 
   constructor(private http: HttpClient) {}
 

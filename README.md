@@ -49,13 +49,29 @@ cd work-flow-hub-front-end
 npm install
 ```
 
-4. Avviare il server di sviluppo:
+4. Cambiare la stringa nel service **(opzionale)**:
+
+- **IntelliJ**
+
+  ```typescript
+  private baseUrl: string =
+      'http://localhost:8080/work-flow-hub-back-end-0.0.1-SNAPSHOT/api/work-flow-hub';
+   ```
+
+- **Eclipse**
+
+   ```typescript
+  private baseUrl: string =
+    'http://localhost:8080/work-flow-hub-back-end/api/work-flow-hub';
+   ```
+
+5. Avviare il server di sviluppo:
 
 ```bash
 ng serve
 ```
 
-5. Aprire il browser e andare all'indirizzo `http://localhost:4200/` per visualizzare l'applicazione.
+6. Aprire il browser e andare all'indirizzo `http://localhost:4200/` per visualizzare l'applicazione.
 
 ## Struttura del progetto
 
