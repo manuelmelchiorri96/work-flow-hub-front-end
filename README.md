@@ -1,6 +1,6 @@
 # Progetto Finale Frontend: Work_Flow_Hub
 
-Questo è il frontend del progetto finale, che fornisce un'interfaccia utente per interagire con il backend attraverso un'interfaccia web.
+Questo è il frontend del progetto finale per start2impact, che fornisce un'interfaccia utente per interagire con il backend attraverso un'interfaccia web.
 
 ## Funzionalità dell'applicazione
 
